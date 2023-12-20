@@ -1,23 +1,23 @@
 <script lang="ts">
-
+  
     const high = {
-        "고잔고":{"full":295,"name":"고잔고","count":0},
-        "송호고":{"full":289,"name":"송호고","count":0},
-        "경안고":{"full":312,"name":"경안고","count":0},
-        "성안고":{"full":297,"name":"성안고","count":0},
-        "상록고":{"full":301,"name":"상록고","count":0},
-        "안산고":{"full":252,"name":"안산고","count":0},
-        "성포고":{"full":280,"name":"성포고","count":0},
-        "광덕고":{"full":237,"name":"광덕고","count":0},
-        "양지고":{"full":251,"name":"양지고","count":0},
-        "강서고":{"full":275,"name":"강서고","count":0},
-        "선부고":{"full":235,"name":"선부고","count":0},
-        "단원고":{"full":232,"name":"단원고","count":0},
-        "부곡고":{"full":277,"name":"부곡고","count":0},
-        "초지고":{"full":233,"name":"초지고","count":0},
-        "대부고":{"full":15,"name":"대부고","count":0},
-        "신길고":{"full":250,"name":"신길고","count":0},
-        "원곡고":{"full":289,"name":"원곡고","count":0},
+        "고잔고":{"full":398,"name":"고잔고","count":0},
+        "송호고":{"full":392,"name":"송호고","count":0},
+        "경안고":{"full":415,"name":"경안고","count":0},
+        "성안고":{"full":400,"name":"성안고","count":0},
+        "상록고":{"full":404,"name":"상록고","count":0},
+        "안산고":{"full":255,"name":"안산고","count":0},
+        "성포고":{"full":383,"name":"성포고","count":0},
+        "광덕고":{"full":340,"name":"광덕고","count":0},
+        "양지고":{"full":354,"name":"양지고","count":0},
+        "강서고":{"full":378,"name":"강서고","count":0},
+        "선부고":{"full":338,"name":"선부고","count":0},
+        "단원고":{"full":335,"name":"단원고","count":0},
+        "부곡고":{"full":380,"name":"부곡고","count":0},
+        "초지고":{"full":336,"name":"초지고","count":0},
+        "대부고":{"full":118,"name":"대부고","count":0},
+        "신길고":{"full":353,"name":"신길고","count":0},
+        "원곡고":{"full":392,"name":"원곡고","count":0},
         
     }
 
@@ -149,7 +149,7 @@
         }},
     }
     
-    const pick = (school:string,room:string,id:number) => {
+    const pick = (school:string,room:number,id:number) => {
         let arr = Object.entries(middle)
         let aarr=[]
         let school_turn = []
@@ -455,18 +455,21 @@
         for(let i=1; i<=school_turn.length; i++){
             if(school_turn[i-1].name === school){
                 rt = i
+                //console.log(school_turn)
                 alert(`${school_turn[i-1].name}는 ${i}번째 입니다.`)
             }
         }
         for(let i=1; i<=room_turn.length; i++){
-            if(room_turn[i-1] === Number(room)){
+            if(room_turn[i-1] === room){
                 ct = i
-                alert(`${i}반은 ${i}번째 입니다.`)
+                //console.log(room_turn)
+                alert(`${room}반은 ${i}번째 입니다.`)
             }
         }
         for(let i=1; i<=id_turn.length; i++){
             if(id_turn[i-1] === id){
                 mt = i
+                //console.log(id_turn)
                 alert(`당신의 순서는 ${i}번째 입니다.`)
             }
         }
@@ -482,58 +485,104 @@
             let a = school_turn[i]
             let area = a.schools.area
             let local = a.schools.local
-            if(i === rt){
+            if(typeof rt !== "number")return
+            if(i === rt-1){
                 //우리 학교 차례일 때
                 if(a.name === school){
-                    for(let j=0; i<a.class_num; j++){
-                        for(let k=0; i<31; k++){
+                    //우리학교 맞나 확인
+                    //console.log(high,`${i}우리 학교 차례`)//알려주고
+                    //console.log(a.class_num)
+                    //alert("지금!")
+                    for(let j=0; j<a.class_num; j++){
+                        //학급 수만큼 반복
+                        //console.log(j,"j다")
+                        for(let k=0; k<31; k++){
+                            //학급별 학생 수만큼 반복
+                            //console.log(k,"k다")
+                            //console.log(`${school} ${room_turn[j]}반 ${k+1}번`)//지금 누구인지 알려 주고
                             if(typeof ct === "number"&&typeof mt === "number"){
                                 if(j === ct-1&&k === mt-1){
-                                    //지금의 경우가 자기 반에서, 자신의 경우
+                                    //자기 반에서, 자기 순서인 경우
+                                    console.log("1.여기까지 오긴 하나?")//확인 하고
+                                    area = schools.area
+                                    local = schools.local
                                     if(local.st.full !== local.st.count){
                                         local.st.count++
-                                        alert(`${local.st.name}에 배정 되셨습니다.`)
+                                        alert(`지역내 배정, ${local.st.name}에 배정 되셨습니다.`)
                                     }else if(local.nd.full !== local.nd.count){
                                         local.nd.count++
-                                        alert(`${local.nd.name}에 배정 되셨습니다.`)
+                                        alert(`지역내 배정, ${local.nd.name}에 배정 되셨습니다.`)
                                     }else if(local.rd.full !== local.rd.count){
                                         local.rd.count++
-                                        alert(`${local.rd.name}에 배정 되셨습니다.`)
+                                        alert(`지역내 배정, ${local.rd.name}에 배정 되셨습니다.`)
                                     }else if(local.th.full !== local.th.count){
                                         local.th.count++
-                                        alert(`${local.th.name}에 배정 되셨습니다.`)
+                                        alert(`지역내 배정, ${local.th.name}에 배정 되셨습니다.`)
                                     }else if(local.fth.full !== local.fth.count){
                                         local.fth.count++
-                                        alert(`${local.fth.name}에 배정 되셨습니다.`)
+                                        alert(`지역내 배정, ${local.fth.name}에 배정 되셨습니다.`)
                                     }else if(area.st.full !== area.st.count){
                                         area.st.count++
-                                        alert(`${area.st.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.st.name}에 배정 되셨습니다.`)
                                     }else if(area.nd.full !== area.nd.count){
                                         area.nd.count++
-                                        alert(`${area.nd.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.nd.name}에 배정 되셨습니다.`)
                                     }else if(area.rd.full !== area.rd.count){
                                         area.rd.count++
-                                        alert(`${area.rd.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.rd.name}에 배정 되셨습니다.`)
                                     }else if(area.th.full !== area.th.count){
                                         area.th.count++
-                                        alert(`${area.th.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.th.name}에 배정 되셨습니다.`)
                                     }else if(area.fth.full !== area.fth.count){
                                         area.fth.count++
-                                        alert(`${area.fth.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.fth.name}에 배정 되셨습니다.`)
                                     }else if(area.sth.full !== area.sth.count){
                                         area.sth.count++
-                                        alert(`${area.sth.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.sth.name}에 배정 되셨습니다.`)
                                     }else if(area.seth.full !== area.seth.count){
                                         area.seth.count++
-                                        alert(`${area.seth.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.seth.name}에 배정 되셨습니다.`)
                                     }else if(area.eth.full !== area.eth.count){
                                         area.eth.count++
-                                        alert(`${area.eth.name}에 배정 되셨습니다.`)
+                                        alert(`학군내 배정, ${area.eth.name}에 배정 되셨습니다.`)
                                     }else if(typeof area.nth !== "string"){
                                         if(area.nth.full !== area.nth.count){
                                             area.nth.count++
-                                            alert(`${area.nth.name}에 배정 되셨습니다.`)
+                                            alert(`학군내 배정, ${area.nth.name}에 배정 되셨습니다.`)
                                         }else alert(`유감스럽게도 지망하신 모든 학교가 모두 인원이 채워져 안산시에서 남는 학교에 배정 예정입니다.`)
+                                    }
+                                }
+                            }else {
+                                console.log(`${a.name} ${k}번`)
+                                if(local.st.full !== local.st.count){
+                                    local.st.count++
+                                }else if(local.nd.full !== local.nd.count){
+                                    local.nd.count++
+                                }else if(local.rd.full !== local.rd.count){
+                                    local.rd.count++
+                                }else if(local.th.full !== local.th.count){
+                                    local.th.count++
+                                }else if(local.fth.full !== local.fth.count){
+                                    local.fth.count++
+                                }else if(area.st.full !== area.st.count){
+                                    area.st.count++
+                                }else if(area.nd.full !== area.nd.count){
+                                    area.nd.count++
+                                }else if(area.rd.full !== area.rd.count){
+                                    area.rd.count++
+                                }else if(area.th.full !== area.th.count){
+                                    area.th.count++
+                                }else if(area.fth.full !== area.fth.count){
+                                    area.fth.count++
+                                }else if(area.sth.full !== area.sth.count){
+                                    area.sth.count++
+                                }else if(area.seth.full !== area.seth.count){
+                                    area.seth.count++
+                                }else if(area.eth.full !== area.eth.count){
+                                    area.eth.count++
+                                }else if(typeof area.nth !== "string"){
+                                    if(area.nth.full !== area.nth.count){
+                                        area.nth.count++
                                     }
                                 }
                             }
@@ -542,404 +591,45 @@
                         }
                     }
                 }
-                /*if(a.name === "중앙중"){
-                    for(let i=0; i<middle.중앙중.class_num; i++){
-                        for(let i=0; i<31; i++){
-                            let send = middle.중앙중.schools
-
-                        }
-                    }
-                }else if(a === "단원중"){
-                    for(let i=0; i<middle.단원중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "양지중"){
-                    for(let i=0; i<middle.양지중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "성안중"){
-                    for(let i=0; i<middle.성안중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "초지중"){
-                    for(let i=0; i<middle.초지중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "해양중"){
-                    for(let i=0; i<middle.해양중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "송호중"){
-                    for(let i=0; i<middle.송호중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "별망중"){
-                    for(let i=0; i<middle.별망중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "석호중"){
-                    for(let i=0; i<middle.석호중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "시곡중"){
-                    for(let i=0; i<middle.시곡중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "선부중"){
-                    for(let i=0; i<middle.선부중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "상록중"){
-                    for(let i=0; i<middle.상록중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "반월중"){
-                    for(let i=0; i<middle.반월중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "이호중"){
-                    for(let i=0; i<middle.이호중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "부곡중"){
-                    for(let i=0; i<middle.부곡중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "경수중"){
-                    for(let i=0; i<middle.경수중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "광덕중"){
-                    for(let i=0; i<middle.광덕중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "성호중"){
-                    for(let i=0; i<middle.성호중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "성포중"){
-                    for(let i=0; i<middle.성포중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "본오중"){
-                    for(let i=0; i<middle.본오중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "관산중"){
-                    for(let i=0; i<middle.관산중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "대부중"){
-                    for(let i=0; i<middle.대부중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "석수중"){
-                    for(let i=0; i<middle.석수중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "신길중"){
-                    for(let i=0; i<middle.신길중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "선일중"){
-                    for(let i=0; i<middle.선일중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "와동중"){
-                    for(let i=0; i<middle.와동중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "원곡중"){
-                    for(let i=0; i<middle.원곡중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "원일중"){
-                    for(let i=0; i<middle.원일중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "안산중"){
-                    for(let i=0; i<middle.안산중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }else if(a === "해솔중"){
-                    for(let i=0; i<middle.해솔중.class_num; i++){
-                        for(let i=0; i<31; i++){
-
-                        }
-                    }
-                }*/
             }else {
-                if(local.st.full !== local.st.count){
-                    local.st.count++
-                }else if(local.nd.full !== local.nd.count){
-                    local.nd.count++
-                }else if(local.rd.full !== local.rd.count){
-                    local.rd.count++
-                }else if(local.th.full !== local.th.count){
-                    local.th.count++
-                }else if(local.fth.full !== local.fth.count){
-                    local.fth.count++
-                }else if(area.st.full !== area.st.count){
-                    area.st.count++
-                }else if(area.nd.full !== area.nd.count){
-                    area.nd.count++
-                }else if(area.rd.full !== area.rd.count){
-                    area.rd.count++
-                }else if(area.th.full !== area.th.count){
-                    area.th.count++
-                }else if(area.fth.full !== area.fth.count){
-                    area.fth.count++
-                }else if(area.sth.full !== area.sth.count){
-                    area.sth.count++
-                }else if(area.seth.full !== area.seth.count){
-                    area.seth.count++
-                }else if(area.eth.full !== area.eth.count){
-                    area.eth.count++
-                }else if(typeof area.nth !== "string"){
-                    if(area.nth.full !== area.nth.count){
-                        area.nth.count++
+                for(let l=0; l<a.class_num; l++){
+                    for(let p=0; p<31; p++){
+                        //console.log(`${a.name} ${p}번`)
+                        if(local.st.full !== local.st.count){
+                            local.st.count++
+                        }else if(local.nd.full !== local.nd.count){
+                            local.nd.count++
+                        }else if(local.rd.full !== local.rd.count){
+                            local.rd.count++
+                        }else if(local.th.full !== local.th.count){
+                            local.th.count++
+                        }else if(local.fth.full !== local.fth.count){
+                            local.fth.count++
+                        }else if(area.st.full !== area.st.count){
+                            area.st.count++
+                        }else if(area.nd.full !== area.nd.count){
+                            area.nd.count++
+                        }else if(area.rd.full !== area.rd.count){
+                            area.rd.count++
+                        }else if(area.th.full !== area.th.count){
+                            area.th.count++
+                        }else if(area.fth.full !== area.fth.count){
+                            area.fth.count++
+                        }else if(area.sth.full !== area.sth.count){
+                            area.sth.count++
+                        }else if(area.seth.full !== area.seth.count){
+                            area.seth.count++
+                        }else if(area.eth.full !== area.eth.count){
+                            area.eth.count++
+                        }else if(typeof area.nth !== "string"){
+                            if(area.nth.full !== area.nth.count){
+                                area.nth.count++
+                            }
+                        }
                     }
                 }
+                
             }
-            
-            /*if(a === "중앙중"){
-                for(let i=0; i<middle.중앙중.class_num; i++){
-                    for(let i=0; i<31; i++){
-                        let send = middle.중앙중.schools
-
-                    }
-                }
-            }else if(a === "단원중"){
-                for(let i=0; i<middle.단원중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "양지중"){
-                for(let i=0; i<middle.양지중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "성안중"){
-                for(let i=0; i<middle.성안중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "초지중"){
-                for(let i=0; i<middle.초지중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "해양중"){
-                for(let i=0; i<middle.해양중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "송호중"){
-                for(let i=0; i<middle.송호중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "별망중"){
-                for(let i=0; i<middle.별망중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "석호중"){
-                for(let i=0; i<middle.석호중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "시곡중"){
-                for(let i=0; i<middle.시곡중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "선부중"){
-                for(let i=0; i<middle.선부중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "상록중"){
-                for(let i=0; i<middle.상록중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "반월중"){
-                for(let i=0; i<middle.반월중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "이호중"){
-                for(let i=0; i<middle.이호중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "부곡중"){
-                for(let i=0; i<middle.부곡중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "경수중"){
-                for(let i=0; i<middle.경수중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "광덕중"){
-                for(let i=0; i<middle.광덕중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "성호중"){
-                for(let i=0; i<middle.성호중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "성포중"){
-                for(let i=0; i<middle.성포중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "본오중"){
-                for(let i=0; i<middle.본오중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "관산중"){
-                for(let i=0; i<middle.관산중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "대부중"){
-                for(let i=0; i<middle.대부중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "석수중"){
-                for(let i=0; i<middle.석수중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "신길중"){
-                for(let i=0; i<middle.신길중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "선일중"){
-                for(let i=0; i<middle.선일중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "와동중"){
-                for(let i=0; i<middle.와동중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "원곡중"){
-                for(let i=0; i<middle.원곡중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "원일중"){
-                for(let i=0; i<middle.원일중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "안산중"){
-                for(let i=0; i<middle.안산중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }else if(a === "해솔중"){
-                for(let i=0; i<middle.해솔중.class_num; i++){
-                    for(let i=0; i<31; i++){
-
-                    }
-                }
-            }  */        
         }
         alert(`테스트 완료, F5를 누르면 다시 할 수 있습니다.`)
     }
@@ -984,10 +674,29 @@
     let school = prompt("출신 중학교를 입력해 주세요.")
     let classs = prompt("반을 입력해 주세요")
     let num = prompt("번호를 입력해 주세요")
-    if(typeof school === "string"&&typeof classs === "string")
-    pick(school,classs,Number(num))
+    if(typeof school === "string"&&typeof classs === "string"){
+        high.강서고.count = 0;
+        high.경안고.count = 0;
+        high.고잔고.count = 0;
+        high.광덕고.count = 0;
+        high.단원고.count = 0;
+        high.대부고.count = 0;
+        high.부곡고.count = 0;
+        high.상록고.count = 0;
+        high.선부고.count = 0;
+        high.성안고.count = 0;
+        high.성포고.count = 0;
+        high.송호고.count = 0;
+        high.신길고.count = 0;
+        high.안산고.count = 0;
+        high.양지고.count = 0;
+        high.원곡고.count = 0;
+        high.초지고.count = 0;
+        pick(school,Number(classs),Number(num))
+    }
+    
 }}>테스트해 보기</button>
-<div>
+<div class="tables">
     <table>
         <tr>
             <th class="sub_title" colspan="3">지역내 배정</th>
@@ -1281,11 +990,22 @@
         </tr>
     </table>
 </div>
+<div class="caution">
+    <h3>주의 사항</h3>
+    <ol>
+        <li>출신 중학교, 원서 지망 고등학교 작성 시 <strong>ㅇㅇ고, ㅇㅇ중</strong> 같이 작성해 주세요.</li>
+        <li>반, 번호를 작성 시 <strong>숫자</strong>만 입력해 주세요.</li>
+        <li>결과가 실제 결과와 다소 다를 수 있습니다.</li>
+        <li>기능 추가, 버그 제보 및 건의 사항은 milkway1128@gmail.com으로 보내주세요.</li>
+    </ol> 
+</div>
 
 <style>
-    div {
+    .tables {
         display: flex;
+        width: 40vw
     }
+
     table {
         border-collapse: collapse;
     }
@@ -1303,5 +1023,17 @@
         cursor: pointer;
         background-color: rgb(182, 255, 240);
         font-weight: bolder;
+    }
+    .caution {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40vw;
+        margin-left: -25px
+    }
+    h3 {
+        text-align: center; 
+        text-decoration: underline;
+        color: red;
     }
 </style>
